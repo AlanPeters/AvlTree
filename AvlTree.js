@@ -12,7 +12,8 @@ AvlTree.prototype.insert = function(value){
         return;
     }
 
-    this.insertDown(this.head, node);
+    this.insertDown(this.root, node);
+
 }
 
 
@@ -35,24 +36,33 @@ AvlTree.prototype.insertDown = function(rootNode, newNode){
     if(rootNode.balance === 0){
         return 0;
     }
-    if(rootNode.balance === 2){
-        if(rootNode.left.balance === -1){
-            this.rotateLeft(rootNode.left);
-        }
-        this.rotateRight(rootNode);
-    }else if(rootNode.balance === -2){
-        if(rootNode.right.balance === -1){
-             this.rotateRight(rootNode.right);
-        }
-        this.rotateLeft(rootNode);
-    }
-
-
-
-
-
+    /*if(rootNode.balance === 2){*/
+        //if(rootNode.left.balance === -1){
+            //this.rotateLeft(rootNode.left);
+        //}
+        //this.rotateRight(rootNode);
+    //}else if(rootNode.balance === -2){
+        //if(rootNode.right.balance === -1){
+             //this.rotateRight(rootNode.right);
+        //}
+        //this.rotateLeft(rootNode);
+    /*}*/
 
     return 1;
+}
+
+AvlTree.prototype.rotateRight(rootNode){
+    var newRoot = rootNode.left;
+    rootNode.left = newRoot.right;
+    newRoot.right = rootNode;
+    return newRoot;
+}
+
+AvlTree.prototype.rotateLeft(rootNode){
+     var newRoot = rootNode.right;
+     rootNode.right = newRoot.left;
+     newRoot.left = rootNode;
+     return newRoot;
 }
 
 module.exports = AvlTree;
