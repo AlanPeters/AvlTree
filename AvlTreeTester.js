@@ -15,3 +15,5 @@ console.log(tree);
 tree.insert(1);
 
 console.log(tree);
+
+console.log(tree.printTree());

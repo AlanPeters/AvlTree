@@ -75,4 +75,42 @@ AvlTree.prototype.rotateLeft = function(rootNode){
      return newRoot;
 }
 
+AvlTree.prototype.printTree = function(){
+    var position = 1;
+    var numlayers = 1;
+    var items = [];
+    if(this.root === undefined){
+        return "Empty tree";
+    }
+    var height = this.addToArray(this.root, position, items);
+    var height2 = Math.ceil(Math.log(items.length)/Math.log(2));
+    console.log(height+":"+height2);
+//    console.log(height);
+//    console.log(items.length);
+    var layers = [""];
+    for(var i = height; i >= 0; i--){
+        for(var i = height-i)
+    }
+
+
+
+    layers.map(function(value){console.log(value)});
+
+    return layers;
+
+}
+
+AvlTree.prototype.addToArray = function(node, position, array){
+    array[position] = node.value;
+    var left = 1;
+    var right = 1;
+    if(node.left !== undefined){
+        left += this.addToArray(node.left,position*2,array);
+    }
+    if(node.right !== undefined){
+        right += this.addToArray(node.right,position*2+1,array);
+    }
+    return left > right ? left : right;
+}
+
 module.exports = AvlTree;
