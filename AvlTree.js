@@ -17,7 +17,7 @@ AvlTree.prototype.insert = function(value){
     this.root = this.balance(this.root);
 }
 
-
+//Called by Insert to add a new node beyond the root
 AvlTree.prototype.insertDown = function(rootNode, newNode){
     if(newNode.value < rootNode.value){
         if(rootNode.left === undefined){
@@ -42,6 +42,7 @@ AvlTree.prototype.insertDown = function(rootNode, newNode){
     return 1;
 }
 
+//Called by each node when another node is added below.
 AvlTree.prototype.balance = function(rootNode){
     if(rootNode.balance === 2){
         if(rootNode.left.balance === -1){
@@ -87,9 +88,18 @@ AvlTree.prototype.printTree = function(){
     console.log(height+":"+height2);
 //    console.log(height);
 //    console.log(items.length);
+
+    console.log(items);
+
     var layers = [""];
-    for(var i = height; i >= 0; i--){
-        for(var i = height-i)
+    for(var i = 0; i < height; i++){
+        var spacing = Math.pow(2,height - i);
+        var offset = Math.pow(2,i);
+        layers[i] = Array(Math.floor(spacing/2)).join(" ");
+        for(var k = offset; k < Math.pow(2,i+1); k++){
+             layers[i] += items[k] === undefined ? " ": items[k];
+             layers[i] += Array(spacing).join(" ");
+        }
     }
 
 
@@ -101,7 +111,11 @@ AvlTree.prototype.printTree = function(){
 }
 
 AvlTree.prototype.addToArray = function(node, position, array){
-    array[position] = node.value;
+    //array[position] = node.value;
+    if(node.balance === 1){ array[position] = "+";}
+    else if(node.balance === -1){ array[position] = "-"; }
+    else { array[position] = node.balance }
+
     var left = 1;
     var right = 1;
     if(node.left !== undefined){
@@ -114,3 +128,9 @@ AvlTree.prototype.addToArray = function(node, position, array){
 }
 
 module.exports = AvlTree;
+
+
+//       4
+//   3       6
+// 1   4   5   7
+//1 2 3 4 5 6 7 8

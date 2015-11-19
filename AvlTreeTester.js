@@ -12,8 +12,11 @@ console.log(tree);
 
 tree.insert(2);
 console.log(tree);
+tree.printTree();
 tree.insert(1);
 
 console.log(tree);
 
-console.log(tree.printTree());
+tree.printTree();
+
+//console.log(tree.printTree());
