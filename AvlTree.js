@@ -25,7 +25,9 @@ AvlTree.prototype.insertDown = function(rootNode, newNode){
             rootNode.balance++;
         }else{
              rootNode.balance += this.insertDown(rootNode.left, newNode);
-             rootNode.left = this.balance(rootNode.left);
+             var tempNode = this.balance(rootNode.left);
+             if(tempNode !== rootNode.left) rootNode.balance -= 1;
+             rootNode.left = tempNode;
         }
     }else{
         if(rootNode.right === undefined){
@@ -33,7 +35,9 @@ AvlTree.prototype.insertDown = function(rootNode, newNode){
             rootNode.balance--;
         }else{
              rootNode.balance -= this.insertDown(rootNode.right, newNode);
-             rootNode.right = this.balance(rootNode.right);
+             var tempNode = this.balance(rootNode.right);
+             if(tempNode !== rootNode.right) rootNode.balance += 1;
+             rootNode.right = tempNode;
         }
     }
     if(rootNode.balance === 0){
