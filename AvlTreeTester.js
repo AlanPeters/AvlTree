@@ -1,30 +1,30 @@
 AvlTree = require("./AvlTree.js");
 
 var tree = new AvlTree();
-tree.insert(7);
+tree.insert2(7);
 console.log(tree);
-tree.insert(5);
+tree.insert2(5);
 console.log(tree);
-tree.insert(6);
+tree.insert2(6);
 console.log(tree);
 
 //return;
 
-tree.insert(2);
+tree.insert2(2);
 console.log(tree);
 tree.printTree();
-tree.insert(1);
+tree.insert2(1);
 
 console.log(tree);
 
-tree.insert(9);
-tree.insert(5);
-tree.insert(15);
-tree.insert(1);
-tree.insert(2);
-tree.insert(6);
-tree.insert(0);
-tree.insert(.5);
+tree.insert2(9);
+tree.insert2(5);
+tree.insert2(15);
+tree.insert2(1);
+tree.insert2(2);
+tree.insert2(6);
+tree.insert2(0);
+tree.insert2(.5);
 
 tree.printTree();
 

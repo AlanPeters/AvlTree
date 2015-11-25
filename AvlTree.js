@@ -24,26 +24,72 @@ AvlTree.prototype.insertDown = function(rootNode, newNode){
             rootNode.left = newNode;
             rootNode.balance++;
         }else{
-             rootNode.balance += this.insertDown(rootNode.left, newNode);
-             var tempNode = this.balance(rootNode.left);
-             if(tempNode !== rootNode.left) rootNode.balance -= 1;
-             rootNode.left = tempNode;
+            rootNode.balance += this.insertDown(rootNode.left, newNode);
+            var tempNode = this.balance(rootNode.left);
+            if(tempNode !== rootNode.left){
+                rootNode.balance -= 1;
+                rootNode.left = tempNode;
+            }
         }
     }else{
         if(rootNode.right === undefined){
             rootNode.right = newNode;
             rootNode.balance--;
         }else{
-             rootNode.balance -= this.insertDown(rootNode.right, newNode);
-             var tempNode = this.balance(rootNode.right);
-             if(tempNode !== rootNode.right) rootNode.balance += 1;
-             rootNode.right = tempNode;
+            rootNode.balance -= this.insertDown(rootNode.right, newNode);
+            var tempNode = this.balance(rootNode.right);
+            if(tempNode !== rootNode.right){
+                rootNode.balance += 1;
+                rootNode.right = tempNode;
+            }
         }
     }
     if(rootNode.balance === 0){
         return 0;
     }
     return 1;
+}
+
+AvlTree.prototype.insert2 = function(value){
+     var newNode = {};
+     newNode.value = value;
+     newNode.balance = 0;
+     if(this.root === undefined){
+         this.root = newNode;
+         return;
+     }
+     this.root = this.insertDown2(this.root, newNode);
+}
+
+
+AvlTree.prototype.insertDown2 = function(rootNode, newNode){
+    var nextNode;
+    if(newNode.value < rootNode.value){
+        if(rootNode.left === undefined){
+            rootNode.left = newNode;
+            rootNode.balance++;
+            return rootNode;
+        }else{
+            var oldBalance = rootNode.left.balance;
+            rootNode.left = this.insertDown2(rootNode.left, newNode);
+            if(oldBalance === 0 && rootNode.left.balance !== 0){
+                rootNode.balance++;
+            }
+        }
+    }else{
+        if(rootNode.right === undefined){
+            rootNode.right = newNode;
+            rootNode.balance--;
+            return rootNode;
+        }else{
+            var oldBalance = rootNode.right.balance;
+            rootNode.right = this.insertDown2(rootNode.right, newNode);
+            if(oldBalance === 0 && rootNode.right.balance !== 0){
+               rootNode.balance--;
+           }
+        }
+    }
+    return this.balance(rootNode);
 }
 
 //Called by each node when another node is added below.
@@ -71,6 +117,8 @@ AvlTree.prototype.rotateRight = function(rootNode){
     return newRoot;
 }
 
+//Rotates Left and sets balance. Assumes balance will be off by 2 unless it is
+//preparing for a right balance after.
 AvlTree.prototype.rotateLeft = function(rootNode){
      var newRoot = rootNode.right;
      rootNode.right = newRoot.left;
@@ -79,6 +127,9 @@ AvlTree.prototype.rotateLeft = function(rootNode){
      rootNode.balance = 0;
      return newRoot;
 }
+
+
+
 
 AvlTree.prototype.printTree = function(){
     var position = 1;
@@ -89,11 +140,6 @@ AvlTree.prototype.printTree = function(){
     }
     var height = this.addToArray(this.root, position, items);
     var height2 = Math.ceil(Math.log(items.length)/Math.log(2));
-    console.log(height+":"+height2);
-//    console.log(height);
-//    console.log(items.length);
-
-    console.log(items);
 
     var layers = [""];
     for(var i = 0; i < height; i++){
@@ -105,9 +151,6 @@ AvlTree.prototype.printTree = function(){
              layers[i] += Array(spacing).join(" ");
         }
     }
-
-
-
     layers.map(function(value){console.log(value)});
 
     return layers;
