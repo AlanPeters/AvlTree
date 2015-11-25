@@ -3,54 +3,6 @@ function AvlTree(){
 }
 
 AvlTree.prototype.insert = function(value){
-    var node = {};
-    node.value = value;
-    node.balance = 0;
-
-    if(this.root === undefined){
-        this.root = node;
-        return;
-    }
-
-    this.insertDown(this.root, node);
-
-    this.root = this.balance(this.root);
-}
-
-//Called by Insert to add a new node beyond the root
-AvlTree.prototype.insertDown = function(rootNode, newNode){
-    if(newNode.value < rootNode.value){
-        if(rootNode.left === undefined){
-            rootNode.left = newNode;
-            rootNode.balance++;
-        }else{
-            rootNode.balance += this.insertDown(rootNode.left, newNode);
-            var tempNode = this.balance(rootNode.left);
-            if(tempNode !== rootNode.left){
-                rootNode.balance -= 1;
-                rootNode.left = tempNode;
-            }
-        }
-    }else{
-        if(rootNode.right === undefined){
-            rootNode.right = newNode;
-            rootNode.balance--;
-        }else{
-            rootNode.balance -= this.insertDown(rootNode.right, newNode);
-            var tempNode = this.balance(rootNode.right);
-            if(tempNode !== rootNode.right){
-                rootNode.balance += 1;
-                rootNode.right = tempNode;
-            }
-        }
-    }
-    if(rootNode.balance === 0){
-        return 0;
-    }
-    return 1;
-}
-
-AvlTree.prototype.insert2 = function(value){
      var newNode = {};
      newNode.value = value;
      newNode.balance = 0;
@@ -62,7 +14,7 @@ AvlTree.prototype.insert2 = function(value){
 }
 
 
-AvlTree.prototype.insertDown2 = function(rootNode, newNode){
+AvlTree.prototype.insertDown = function(rootNode, newNode){
     var nextNode;
     if(newNode.value < rootNode.value){
         if(rootNode.left === undefined){
@@ -108,6 +60,8 @@ AvlTree.prototype.balance = function(rootNode){
     return rootNode;
 }
 
+//Rotates Right and sets balance. Assumes balance will be off by 2 unless it is
+//preparing for a left balance after.
 AvlTree.prototype.rotateRight = function(rootNode){
     var newRoot = rootNode.left;
     rootNode.left = newRoot.right;
@@ -157,12 +111,15 @@ AvlTree.prototype.printTree = function(){
 
 }
 
-AvlTree.prototype.addToArray = function(node, position, array){
+AvlTree.prototype.addToArray = function(node, position, array, useBalance){
     //array[position] = node.value;
-    if(node.balance === 1){ array[position] = "+";}
-    else if(node.balance === -1){ array[position] = "-"; }
-    else { array[position] = node.balance }
-
+    if(useBalance){
+        if(node.balance === 1){ array[position] = "+";}
+        else if(node.balance === -1){ array[position] = "-"; }
+        else { array[position] = node.balance }
+    }else{
+        array
+    }
     var left = 1;
     var right = 1;
     if(node.left !== undefined){
